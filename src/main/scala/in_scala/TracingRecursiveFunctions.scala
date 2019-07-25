@@ -11,7 +11,7 @@ object TracingRecursiveFunctions {
 
 	def factorial(n: Int): Int = if(n < 2) 1 else n * factorial(n - 1)
 
-	/**
+	/** Comment
 		* 5 -> 4 -> 3 -> 2 -> 1 ==> 1 * 2 * 3 * 4 * 5
 		*/
 }
