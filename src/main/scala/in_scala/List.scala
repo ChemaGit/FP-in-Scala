@@ -20,6 +20,35 @@ object DemoList {
 		println("*******************")
 		val res2 = operateOnList_2(lst2, 1, (x, y) => x * y)
 		println(s"operateOnList_2(lst2, 1, (x, y) => x * y) => $res2")
+
+		// The fill method on Lists
+		println("*********fill method***************")
+		val fillArray = Array.fill(10)(5)
+		println(fillArray.mkString(","))
+		val fillArray1 = Array.fill(10)(Math.random)
+		println(fillArray1.mkString(","))
+		val fillArray2 = List.fill(10)(Math.random)
+		println(fillArray2.mkString(","))
+		val fillArray3 = List.fill(10)(Math.random)
+		println(fillArray3.mkString(","))
+		var i = 0
+		val fillArray4 = List.fill(10)({i += 1;i})
+		println(fillArray4.mkString(","))
+		val fillArray5 = List.fill(5)(readInt)
+		println(fillArray5.mkString(","))
+
+		// The tabulate Method
+		println("******************The tabulate Method********************")
+		val fillArray6 = Array.tabulate(10)(i => i)
+		println(fillArray6.mkString(","))
+		val fillArray7 = Array.tabulate(10)(i => i * 2)
+		println(fillArray7.mkString(","))
+		val fillList = List.tabulate(10)(i => i * 3)
+		println(fillList.mkString(","))
+		val fillList1 = List.tabulate(10)(i => Math.random)
+		println(fillList1.mkString(","))
+		val fillList2 = List.tabulate(10)(i => i * i)
+		println(fillList2.mkString(","))
 	}
 	// Lists are inmutable
 	val l = List(1,2,3,4,5)
@@ -41,5 +70,10 @@ object DemoList {
 			case Nil => base
 			case h :: t => f(h, operateOnList_2(t, base, f))
 		}
+	}
+
+	def fillList(n: Int, v: Double):List[Double] = {
+		if(n < 1) Nil
+		else v :: fillList(n -1, v)
 	}
 }
