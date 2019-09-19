@@ -1,5 +1,28 @@
 package scala_and_functional_programming.lectures.part2oop
 
+/*
+Scala doesn't have "static" values/methods
+
+Scala objects
+	- are in their own class
+	- are the only instance
+	- singleton pattern in one line!
+object Person {
+	val N_EYES = 2
+	def canFly: Boolean = false
+}
+
+Scala companions
+	- can access each other's private members
+	- Scala is more OO than Java!
+class Person
+object Person
+
+Scala applications
+	def main(args: Array[String]): Unit
+	object MyApp extends App
+*/
+
 object Objects {
 	// SCALA DOES NOT HAVE CLASS-LEVEL FUNCTIONALITY ("static")
 	// Scala object = SINGLETON INSTANCE
@@ -21,8 +44,8 @@ object Objects {
 		println(Person.N_EYES)
 		println(Person.canFly)
 
-		val mary = Person("Mary")
-		val john = Person("John")
+		val mary = new Person("Mary")
+		val john = new Person("John")
 		println(mary == john)
 
 		val person1 = Person
@@ -30,6 +53,7 @@ object Objects {
 		println(person1 == person2)
 
 		val bobbie = Person.apply(mary, john)
+		val bobbie2 = Person(mary, john)
 
 	}
 
