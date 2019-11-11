@@ -14,7 +14,9 @@ object StringOps {
 
 		val aNumberString = "45"
 		val aNumber = aNumberString.toInt
+		println(aNumber)
 		println('a' +: aNumberString :+ 'z')
+		println('p' +: aNumberString :+ 'w')
 		println(str.reverse)
 		println(str.take(2))
 
@@ -36,6 +38,12 @@ object StringOps {
 			- String interpolators: F
 				For formatted strings, similar to printf
 				Can check for type correctness
+			val speed = 1.2f
+			val name = "Chema"
+			println(f"$name%s can eat $speed%2.2f burgers per minute")
+
+			val x = 1.1f => value is float
+			val str = f"$x%3d" => format requires Int => Compile error
 		*/
 
 		// raw-interpolator
