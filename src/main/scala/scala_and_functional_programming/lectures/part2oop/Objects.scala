@@ -30,6 +30,8 @@ object Objects {
 		val N_EYES = 2
 		def canFly: Boolean = false
 
+		def canSwim(value: Boolean): Boolean = value
+
 		def apply(mother: Person, father: Person): Person = new Person("Bobbie")
 	}
 
@@ -43,6 +45,7 @@ object Objects {
 	def main(args: Array[String]): Unit = {
 		println(Person.N_EYES)
 		println(Person.canFly)
+		println(Person.canSwim(true))
 
 		val mary = new Person("Mary")
 		val john = new Person("John")
