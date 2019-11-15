@@ -81,5 +81,5 @@ class Car
 class Supercar extends Car
 class Garage[T <: Car](car: T)
 
-- An annoying variance problem
+- An annoying variance problem that we resolve with bounded types
 */
