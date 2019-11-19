@@ -39,7 +39,7 @@ TAKEAWAYS
 			def eat: Unit
 		}
 		
-		val predator = new Animla {
+		val predator = new Animal {
 			override def eat: Unit = println("RAWR!")
 		}
 
