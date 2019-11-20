@@ -54,7 +54,7 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 			   = new ConsGB(2, new ConsGB(4, new ConsGB(6, EmptyGB)))
   */
   def map[B](transformer: MyTransformer[A, B]): MyListGenericB[B] = {
-	  new ConsGB(transformer.transform(h), t.map(transformer))
+    new ConsGB(transformer.transform(h), t.map(transformer))
   }
 
   /*
@@ -65,20 +65,20 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 	= [1,2,2,3]
   */
   def flatMap[B](transformer: MyTransformer[A, MyListGenericB[B]]): MyListGenericB[B] = {
-	  transformer.transform(h) ++ t.flatMap(transformer)
+    transformer.transform(h) ++ t.flatMap(transformer)
   }
 
 
-	/*
-		[1,2,3].filter(n % 2 == 0) =
-		[2,3].filter(n % 2 == 0) =
-		= new ConsGB(2, [3].filter(n % 2 == 0))
-		= new ConsGB(2, Empty.filter(n % 2 == 0))
-		= new ConsGB(2, Empty)
-	*/
+  /*
+    [1,2,3].filter(n % 2 == 0) =
+    [2,3].filter(n % 2 == 0) =
+    = new ConsGB(2, [3].filter(n % 2 == 0))
+    = new ConsGB(2, Empty.filter(n % 2 == 0))
+    = new ConsGB(2, Empty)
+  */
   def filter(predicate: MyPredicate[A]): MyListGenericB[A] = {
-	if(predicate.test(h)) new ConsGB(h, t.filter(predicate))
-	else t.filter(predicate)
+    if(predicate.test(h)) new ConsGB(h, t.filter(predicate))
+    else t.filter(predicate)
   }
 
   /*
@@ -107,11 +107,11 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 */
 
 trait MyPredicate[-T] {
-	def test(elem: T): Boolean
+  def test(elem: T): Boolean
 }
 
 trait MyTransformer[-A, B] {
-	def transform(elem: A): B
+  def transform(elem: A): B
 }
 
 object OOExpandingOurCollection extends App {
@@ -137,13 +137,13 @@ object OOExpandingOurCollection extends App {
   }).toString)
 
   println(listOfIntegers.filter(new MyPredicate[Int]{
-	  override def test(elem: Int): Boolean = elem % 2 == 0
+    override def test(elem: Int): Boolean = elem % 2 == 0
   }).toString)
 
-  println(listOfIntegers ++ anotherListOfIntegers).toString 
+  println(listOfIntegers ++ anotherListOfIntegers).toString
 
   println(listOfIntegers.flatMap(new MyTransformer[Int, MyListGenericB[Int]]{
-	  override def transform(elem: Int): MyListGenericB[Int] = new ConsGB(elem, new ConsGB(elem + 1, EmptyGB))
+    override def transform(elem: Int): MyListGenericB[Int] = new ConsGB(elem, new ConsGB(elem + 1, EmptyGB))
   }).toString)
 }
 
@@ -199,5 +199,3 @@ traits
 
 Inheriting from a class and multiple traits
 */
-
-
