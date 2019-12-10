@@ -1,7 +1,7 @@
 package scala_and_functional_programming.lectures.part2oop
 
-// import playground._ //{PrinceCharming, Cinderella}
-import playground.{PrinceCharming, Cinderella => Princess}
+ import scala_and_functional_programming.playground.{Cinderella, PrinceCharming} //{PrinceCharming, Cinderella}
+//import playground.{PrinceCharming, Cinderella => Princess}
 
 import java.util.Date
 import java.sql.{Date => SqlDate}
@@ -13,7 +13,7 @@ object PackagingAndImports extends App {
 
 	// import the package
 	val princess = new Cinderella
-	val princess2 = new playground.Cinderella // playground.Cinderella = fully qualified name
+	val princess2 = new Cinderella // playground.Cinderella = fully qualified name
 
 	// packages are in hiereachy
 	// matching folder structure.

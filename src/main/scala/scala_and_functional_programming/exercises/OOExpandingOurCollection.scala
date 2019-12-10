@@ -16,9 +16,10 @@ abstract class MyListGenericB[+A] {
   // polymorphic call
   override def toString: String = s"[ $printElements ]"
 
-  def map[B](transfomer: MyTransformer[A, B]): MyListGenericB[B]
-  def flatMap[B](transformer: MyTransformer[A, MyListGenericB[B]]): MyListGenericB[B]
-  def filter(predicate: MyPredicate[A]): MyListGenericB[A]
+  // Higher-order functions
+  def map[B](transfomer: A => B): MyListGenericB[B]
+  def flatMap[B](transformer: A => MyListGenericB[B]): MyListGenericB[B]
+  def filter(predicate: A => Boolean): MyListGenericB[A]
 
   // concatenation
   def ++[B >: A](list: MyListGenericB[B]): MyListGenericB[B]
@@ -31,9 +32,9 @@ object EmptyGB extends MyListGenericB[Nothing] {
   def add[B >: Nothing](v: B): MyListGenericB[B] = new ConsGB(v, EmptyGB)
   def printElements: String = "[]"
 
-  def map[B](transfomer: MyTransformer[Nothing, B]): MyListGenericB[B] = EmptyGB
-  def flatMap[B](transfomer: MyTransformer[Nothing, MyListGenericB[B]]): MyListGenericB[B] = EmptyGB
-  def filter(predicate: MyPredicate[Nothing]): MyListGenericB[Nothing] = EmptyGB
+  def map[B](transfomer: Nothing => B): MyListGenericB[B] = EmptyGB
+  def flatMap[B](transfomer: Nothing => MyListGenericB[B]): MyListGenericB[B] = EmptyGB
+  def filter(predicate: Nothing => Boolean): MyListGenericB[Nothing] = EmptyGB
 
   def ++[B >: Nothing](list: MyListGenericB[B]): MyListGenericB[B] = list
 }
@@ -53,8 +54,8 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 			   = new ConsGB(2, new ConsGB(4, new ConsGB(6, EmptyGB.map(n * 2))))
 			   = new ConsGB(2, new ConsGB(4, new ConsGB(6, EmptyGB)))
   */
-  def map[B](transformer: MyTransformer[A, B]): MyListGenericB[B] = {
-    new ConsGB(transformer.transform(h), t.map(transformer))
+  def map[B](transformer: A => B): MyListGenericB[B] = {
+    new ConsGB(transformer(h), t.map(transformer))
   }
 
   /*
@@ -64,8 +65,8 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 	= [1,2] ++ [2,3] ++ EmptyGB
 	= [1,2,2,3]
   */
-  def flatMap[B](transformer: MyTransformer[A, MyListGenericB[B]]): MyListGenericB[B] = {
-    transformer.transform(h) ++ t.flatMap(transformer)
+  def flatMap[B](transformer: A => MyListGenericB[B]): MyListGenericB[B] = {
+    transformer(h) ++ t.flatMap(transformer)
   }
 
 
@@ -76,8 +77,8 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
     = new ConsGB(2, Empty.filter(n % 2 == 0))
     = new ConsGB(2, Empty)
   */
-  def filter(predicate: MyPredicate[A]): MyListGenericB[A] = {
-    if(predicate.test(h)) new ConsGB(h, t.filter(predicate))
+  def filter(predicate: A => Boolean): MyListGenericB[A] = {
+    if(predicate(h)) new ConsGB(h, t.filter(predicate))
     else t.filter(predicate)
   }
 
@@ -106,13 +107,15 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 		[1,2,3].flatMap(n => [n,n+1]) => [1,2,2,3,3,4]
 */
 
-trait MyPredicate[-T] {
-  def test(elem: T): Boolean
-}
+//trait MyPredicate[-T] { // T => Boolean
+//  def test(elem: T): Boolean
+//}
+//
+//trait MyTransformer[-A, B] { // A => B
+//  def transform(elem: A): B
+//}
 
-trait MyTransformer[-A, B] {
-  def transform(elem: A): B
-}
+
 
 object OOExpandingOurCollection extends App {
   val list = new ConsGB(1, EmptyGB)
@@ -132,19 +135,13 @@ object OOExpandingOurCollection extends App {
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
 
-  println(listOfIntegers.map(new MyTransformer[Int, Int] {
-    override def transform(elem: Int): Int = elem * 2
-  }).toString)
+  println(listOfIntegers.map(v => v * 2).toString)
 
-  println(listOfIntegers.filter(new MyPredicate[Int]{
-    override def test(elem: Int): Boolean = elem % 2 == 0
-  }).toString)
+  println(listOfIntegers.filter(elem => elem % 2 == 0).toString)
 
   println(listOfIntegers ++ anotherListOfIntegers).toString
 
-  println(listOfIntegers.flatMap(new MyTransformer[Int, MyListGenericB[Int]]{
-    override def transform(elem: Int): MyListGenericB[Int] = new ConsGB(elem, new ConsGB(elem + 1, EmptyGB))
-  }).toString)
+  println(listOfIntegers.flatMap(elem => new ConsGB(elem, new ConsGB(elem + 1, EmptyGB))).toString)
 }
 
 /*
