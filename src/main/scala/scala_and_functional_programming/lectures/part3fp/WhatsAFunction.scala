@@ -28,6 +28,10 @@ object WhatsAFunction extends App {
   /*
     1. a function which takes 2 strings and concatenates them
     2. transform the MyPredicate and MyTransformer into function types => implements this in "OOExpandingOurCollection"
+      // Higher-order functions
+        def map[B](transfomer: A => B): MyListGenericB[B]
+        def flatMap[B](transformer: A => MyListGenericB[B]): MyListGenericB[B]
+        def filter(predicate: A => Boolean): MyListGenericB[A]
     3. define a function which takes an int and returns another function which takes an int and returns an int
       - what's  the type of this function
       - how to do it
