@@ -1,4 +1,21 @@
 package scala_and_functional_programming.lectures.part2oop
+/**
+TAKEAWAYS
+
+		Quick lightweight data structures with little boilerplate
+
+		case class Person(name: String, age: Int)
+
+		Companions already implemented ==> val bob = Person("Bob", 26)
+
+		Sensible equals, hashCode, toString
+
+		Auto-promoted params to fields ==> bob.name
+
+		Cloning, Serializable and Extractable in PATTER MATCHING
+
+		And we have also: case objects
+	*/
 
 object CaseClasses extends App {
 
@@ -47,20 +64,3 @@ object CaseClasses extends App {
 }
 
 
-/**
-	TAKEAWAYS
-
-		Quick lightweight data structures with little boilerplate
-
-		case class Person(name: String, age: Int)
-
-		Companions already implemented ==> val bob = Person("Bob", 26)
-
-		Sensible equals, hashCode, toString
-
-		Auto-promoted params to fields ==> bob.name
-
-		Cloning, Serializable and Extractable in PATTER MATCHING
-
-		And we have also: case objects
-*/
