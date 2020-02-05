@@ -23,6 +23,10 @@ abstract class MyListGenericB[+A] {
 
   // concatenation
   def ++[B >: A](list: MyListGenericB[B]): MyListGenericB[B]
+
+  // HOFs
+  def foreach(f: A => Unit): Unit
+  def sort(compare: (A, A) => Int): MyListGenericB[A]
 }
 
 object EmptyGB extends MyListGenericB[Nothing] {
@@ -37,6 +41,11 @@ object EmptyGB extends MyListGenericB[Nothing] {
   def filter(predicate: Nothing => Boolean): MyListGenericB[Nothing] = EmptyGB
 
   def ++[B >: Nothing](list: MyListGenericB[B]): MyListGenericB[B] = list
+
+  // HOFs
+  def foreach(f: Nothing => Unit) = ()
+
+  override def sort(compare: (Nothing, Nothing) => Int): MyListGenericB[Nothing] = EmptyGB
 }
 
 class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
@@ -89,6 +98,22 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 	= new ConsGB(1, new ConsGB(2, new ConsGB(3, new ConsGB(4, new ConsGB(5)))))
   */
   def ++[B >: A](list: MyListGenericB[B]): MyListGenericB[B] = new ConsGB[B](h, t ++ list)
+
+  // HOFs
+  override def foreach(f: A => Unit): Unit = {
+      f(h)
+    t.foreach(f)
+  }
+
+  override def sort(compare: (A, A) => Int): MyListGenericB[A] = {
+    def insert(x: A, sorterList: MyListGenericB[A]): MyListGenericB[A] =
+      if(sorterList.isEmpty) new ConsGB(x, EmptyGB)
+      else if(compare(x, sorterList.head) <= 0) new ConsGB(x, sorterList)
+      else new ConsGB(sorterList.head, insert(x, sorterList.tail))
+
+    val sortedTail = t.sort(compare)
+    insert(h, sortedTail)
+  }
 }
 
 /*
@@ -142,6 +167,13 @@ object OOExpandingOurCollection extends App {
   println(listOfIntegers ++ anotherListOfIntegers).toString
 
   println(listOfIntegers.flatMap(elem => new ConsGB(elem, new ConsGB(elem + 1, EmptyGB))).toString)
+
+  listOfIntegers.foreach(println)
+  list.tail.foreach(println)
+
+  println(listOfIntegers.sort((x, y) => y - x))
+  listOfIntegers.sort( (x, y) => y - x).foreach(println)
+
 }
 
 /*
