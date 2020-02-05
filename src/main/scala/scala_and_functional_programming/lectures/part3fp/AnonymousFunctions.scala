@@ -1,5 +1,18 @@
 package scala_and_functional_programming.lectures.part3fp
+/**
+TAKEAWAYS
+    Instead of passing anonymous FunctionX instances every time
+  * cumbersome
+  * still object-oriented!
+        (x, y) => x + y
+        (name: String, age: Int) => s"$name is $age years old"
 
+        - return type always inferred
+        - parentheses mandatory for more than one parameter
+        - type optional
+
+      Further sugar: val add: (Int, Int) => Int = _ + _
+  */
 object AnonymousFunctions extends App {
   // anonymous function (LAMBDA)
   val doubler = (x: Int) => x * 2
@@ -39,17 +52,3 @@ object AnonymousFunctions extends App {
   println(specialAdder(5)(10))
 }
 
-/**
-  TAKEAWAYS
-    Instead of passing anonymous FunctionX instances every time
-      * cumbersome
-      * still object-oriented!
-        (x, y) => x + y
-        (name: String, age: Int) => s"$name is $age years old"
-
-        - return type always inferred
-        - parentheses mandatory for more than one parameter
-        - type optional
-
-      Further sugar: val add: (Int, Int) => Int = _ + _
-  */
