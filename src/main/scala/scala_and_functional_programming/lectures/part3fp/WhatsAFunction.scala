@@ -1,5 +1,24 @@
 package scala_and_functional_programming.lectures.part3fp
-
+/**
+  * TAKEAWAYS
+  * We want to work with functions:
+  *   - pass functions as parameters
+  *   - use functions as values
+  *
+  * Problem: Scala works on top of the JVM
+  *   - designed for Java
+  *   - first-class elements: objects(instances of classes)
+  *
+  * Solution: ALL Scala functions are objects!
+  *   - function traits, up to 22 params
+  *   - syntaic sugar function types
+  *
+  *   trait Function1[-A, +B] {
+  *     def apply(element: A): B
+  *   }
+  *
+  *   Function2[Int, String, Int]   (Int, String) => Int
+  */
 object WhatsAFunction extends App {
   // DREAM: use functions as first class elements
   // problem: oop
@@ -67,24 +86,3 @@ object WhatsAFunction extends App {
 trait MyFunction[A,B] {
   def apply(element: A): B = ???
 }
-
-/**
-  * TAKEAWAYS
-  * We want to work with functions:
-  *   - pass functions as parameters
-  *   - use functions as values
-  *
-  * Problem: Scala works on top of the JVM
-  *   - designed for Java
-  *   - first-class elements: objects(instances of classes)
-  *
-  * Solution: ALL Scala functions are objects!
-  *   - function traits, up to 22 params
-  *   - syntaic sugar function types
-  *
-  *   trait Function1[-A, +B] {
-  *     def apply(element: A): B
-  *   }
-  *
-  *   Function2[Int, String, Int]   (Int, String) => Int
-  */
