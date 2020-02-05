@@ -1,5 +1,56 @@
 package scala_and_functional_programming.exercises
+/**
+TAKEAWAYS
 
+- Use the same code on many (potentially unrelated)
+types: trait List[T] {
+ 	def add(elem: T)
+}
+
+- Generic methods
+object List {
+	def single[A](element: A): List[A] = ???
+}
+
+- Multiple type parameters
+trait Map[Key, Value] {
+...
+}
+
+- Variance: if B extends A, should List[B] extend List[A]?
+trait List[+A] yes(covariant)
+trait List[A] no(invariant) - default
+trait List[-A] hell no!(contravariant)
+
+- Bounded types
+class Car
+class Supercar extends Car
+class Garage[T <: Car](car: T)
+
+- An annoying variance problem that we resolve with bounded types
+*/
+
+/*
+TAKEAWAYS
+Scala offers class-based inheritance
+	- access modifiers: private, protected, default(none = public)
+	- need to pass in constructor arguments to parent class
+
+class Animal
+class Cat extends Animal
+
+Derived classes can override members or methods
+
+Reuse parent fields/methods with super
+
+Prevent inheritance with final and sealed
+
+abstract classes
+
+traits
+
+Inheriting from a class and multiple traits
+*/
 abstract class MyListGenericB[+A] {
   /*
     head = first element of the list
@@ -176,55 +227,3 @@ object OOExpandingOurCollection extends App {
 
 }
 
-/*
-TAKEAWAYS
-
-- Use the same code on many (potentially unrelated)
-types: trait List[T] {
- 	def add(elem: T)
-}
-
-- Generic methods
-object List {
-	def single[A](element: A): List[A] = ???
-}
-
-- Multiple type parameters
-trait Map[Key, Value] {
-...
-}
-
-- Variance: if B extends A, should List[B] extend List[A]?
-trait List[+A] yes(covariant)
-trait List[A] no(invariant) - default
-trait List[-A] hell no!(contravariant)
-
-- Bounded types
-class Car
-class Supercar extends Car
-class Garage[T <: Car](car: T)
-
-- An annoying variance problem that we resolve with bounded types
-*/
-
-/*
-TAKEAWAYS
-Scala offers class-based inheritance
-	- access modifiers: private, protected, default(none = public)
-	- need to pass in constructor arguments to parent class
-
-class Animal
-class Cat extends Animal
-
-Derived classes can override members or methods
-
-Reuse parent fields/methods with super
-
-Prevent inheritance with final and sealed
-
-abstract classes
-
-traits
-
-Inheriting from a class and multiple traits
-*/
