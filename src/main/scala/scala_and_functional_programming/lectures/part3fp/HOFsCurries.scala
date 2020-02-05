@@ -1,5 +1,16 @@
 package scala_and_functional_programming.lectures.part3fp
 
+/**
+  * Functional programming = working with functions
+  *   - pass functions as parameters
+  *   - return functions as results
+  *
+  *   => Higher Order Functions (HOFs)
+  *   def nTimesBetter(f: Int => Int, n: Int): Int => Int = ....
+  *
+  *   Currying = functions with multiple parameter lists
+  *   def curriedFormatter(a: Int, b: Int)(c: String): String
+  */
 object HOFsCurries extends App {
 
   val superFunction: (Int, (String, (Int => Boolean)) => Int) => (Int => Int) = null
@@ -68,15 +79,3 @@ object HOFsCurries extends App {
     */
 
 }
-
-/**
-  * Functional programming = working with functions
-  *   - pass functions as parameters
-  *   - return functions as results
-  *
-  *   => Higher Order Functions (HOFs)
-  *   def nTimesBetter(f: Int => Int, n: Int): Int => Int = ....
-  *
-  *   Currying = functions with multiple parameter lists
-  *   def curriedFormatter(a: Int, b: Int)(c: String): String
-  */
