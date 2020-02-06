@@ -1,5 +1,23 @@
 package lectures.part2oop
+/**
+TAKEAWAYS
 
+	- We can instantiate types and override fields of methods on the spot
+
+		trait Animal {
+			def eat: Unit
+		}
+
+		val predator = new Animal {
+			override def eat: Unit = println("RAWR!")
+		}
+
+	- Rules
+		- Pass in required constructor arguments if needed
+		- Implement all abstract fields/methods
+
+	- WORKS FOR TRAITS AND CLASSES (abstract or not)
+*/
 object AnonymousClasses extends App {
 
 	abstract class Animal {
@@ -30,22 +48,4 @@ object AnonymousClasses extends App {
 	}
 
 }
-/*
-TAKEAWAYS
 
-	- We can instantiate types and override fields of methods on the spot
-
-		trait Animal {
-			def eat: Unit
-		}
-		
-		val predator = new Animal {
-			override def eat: Unit = println("RAWR!")
-		}
-
-	- Rules
-		- Pass in required constructor arguments if needed
-		- Implement all abstract fields/methods
-
-	- WORKS FOR TRAITS AND CLASSES (abstract or not)
-*/
