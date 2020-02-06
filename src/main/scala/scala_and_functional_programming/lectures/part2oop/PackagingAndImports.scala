@@ -1,5 +1,32 @@
 package scala_and_functional_programming.lectures.part2oop
 
+/**
+TAKEAWAYS
+
+		- package = a group of definitions under the same name
+
+		- To use a definition
+			- be in the same package
+			- or import the package
+		- Best practice - mirror the file structure
+		- Fully qualified name
+
+			// Person.scala
+			package org.rtjvm.oop
+
+			class Person
+			object Person
+
+	- package objects hold standalone methods/constants
+		- one per package
+
+	- Name aliasing and imports
+
+		import java.sql.{Date => SqlDate}
+		import java.util.{Date => JavaDate}
+		import java.{util => ju}
+	**/
+
  import scala_and_functional_programming.playground.{Cinderella, PrinceCharming} //{PrinceCharming, Cinderella}
 //import playground.{PrinceCharming, Cinderella => Princess}
 
@@ -36,29 +63,4 @@ object PackagingAndImports extends App {
 	// scala.Predef -> println, ???
 }
 
-/**
-	TAKEAWAYS
 
-		- package = a group of definitions under the same name
-
-		- To use a definition
-			- be in the same package
-			- or import the package
-		- Best practice - mirror the file structure
-		- Fully qualified name
-
-			// Person.scala
-			package org.rtjvm.oop
-
-			class Person
-			object Person
-
-	- package objects hold standalone methods/constants
-		- one per package
-
-	- Name aliasing and imports
-
-		import java.sql.{Date => SqlDate}
-		import java.util.{Date => JavaDate}
-		import java.{util => ju}
-**/
