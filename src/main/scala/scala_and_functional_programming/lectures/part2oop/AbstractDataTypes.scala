@@ -1,5 +1,12 @@
 package scala_and_functional_programming.lectures.part2oop
+// traits vs abstract classes
+// 1 - traits do not have constructor parameters
+// 2 - multiple traits may be inherited by the same class
+// 3 - traits = behavior, abstract class = "thing"
 
+// SCALA'S TYPE HIERARCHY
+//	Scala.Any ==> scala.AnyRef(java.lang.Object) ==> String, List, Set ..... ==> scala.Null ==> scala.Nothing
+// 	Scala.AnyVal ==> Int, Unit, Boolean, Float(classes that extends *AnyVal) ==> scala.Nothing
 object AbstractDataTypes extends App {
 
 	// abstract
@@ -30,13 +37,4 @@ object AbstractDataTypes extends App {
 	val dog = new Dog
 	val croc = new Crocodile
 	croc.eat(dog)
-
-	// traits vs abstract classes
-	// 1 - traits do not have constructor parameters
-	// 2 - multiple traits may be inherited by the same class
-	// 3 - traits = behavior, abstract class = "thing"
-
-	// SCALA'S TYPE HIERARCHY
-	//	Scala.Any ==> scala.AnyRef(java.lang.Object) ==> String, List, Set ..... ==> scala.Null ==> scala.Nothing
-	// 	Scala.AnyVal ==> Int, Unit, Boolean, Float(classes that extends *AnyVal) ==> scala.Nothing
 }
