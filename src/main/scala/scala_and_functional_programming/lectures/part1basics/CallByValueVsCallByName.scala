@@ -1,5 +1,13 @@
 package scala_and_functional_programming.lectures.part1basics
+/** TAKEAWAYS
+  Call by value:
+    value is computed before call
+    same value used everywhere
 
+  Call by name:
+    expression is passed literally
+    expression is evaluated at every use within
+*/
 object CallByValueVsCallByName {
 
 	def calledByValue(x: Long): Unit = {
@@ -27,14 +35,6 @@ object CallByValueVsCallByName {
 		// printFirst(infinite(), 34) StackOverflow
 		printFirst(34, infinite())
 
-		/* TAKEAWAYS
-			Call by value: 
-				value is computed before call
-				same value used everywhere
 
-			Call by name: 
-				expression is passed literally
-				expression is evaluated at every use within	
-		*/
 	}
 }
