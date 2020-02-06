@@ -1,5 +1,8 @@
 package scala_and_functional_programming.lectures.part2oop
-
+// preventing overrides
+//	1. use final on members
+//	2. use final on the entire class
+//	3. seal the class "sealed class Animal" = extend classes in THIS FILE, prevent extension in other files
 object InheritanceAndTraits {
 	def main(args: Array[String]): Unit = {
 		val cat = new Cat
@@ -53,7 +56,4 @@ object InheritanceAndTraits {
 
 }
 
-// preventing overrides
-//	1. use final on members
-//	2. use final on the entire class
-//	3. seal the class "sealed class Animal" = extend classes in THIS FILE, prevent extension in other files
+
