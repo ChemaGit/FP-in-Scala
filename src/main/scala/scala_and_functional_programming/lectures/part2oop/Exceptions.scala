@@ -1,5 +1,25 @@
 package scala_and_functional_programming.lectures.part2oop
+/**
+TAKEWAYS
 
+	- Exceptions crash your program
+
+	- How to throw exception
+		- throwing returns Nothing ==> val someValue = throw new RuntimeException
+
+	- How to catch exceptions
+		try {
+			// compute a value
+		} catch {
+			case e: RuntimeException => /* another value */
+		} finally {
+			// block for side effects
+		}
+
+	- Define custom exceptions
+
+		class MyKnife extends Exception
+	**/
 object Exceptions extends App {
 
 	val x: String = null
@@ -146,25 +166,3 @@ object Exceptions extends App {
 	println(PocketCalculator.divide(10, 0))
 
 }
-
-/**
-	TAKEWAYS
-
-	- Exceptions crash your program
-
-	- How to throw exception
-		- throwing returns Nothing ==> val someValue = throw new RuntimeException
-
-	- How to catch exceptions
-		try {
-			// compute a value
-		} catch {
-			case e: RuntimeException => /* another value */
-		} finally {
-			// block for side effects
-		}
-
-	- Define custom exceptions
-		
-		class MyKnife extends Exception
-**/
