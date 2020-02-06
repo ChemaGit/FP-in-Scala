@@ -1,7 +1,28 @@
 package scala_and_functional_programming.lectures.part2oop
 
 import  scala.language.postfixOps
+/**
+Takeaways
 
+	class Person(name: String) {
+		def likes(movie: String): Boolean = {....}
+		def unary_!(): String = {....}
+		def isAlive(): Boolean = {.....}
+		def apply(greeting: String): String = {.....}
+
+		mary.likes("Inception")
+		mary likes "Inception"
+
+		mary.unary_!
+		!mary //prefix notatiton
+
+		mary.isAlive
+		mary isAlive //postfix notation
+
+		mary.apply("Hi there!")
+		mary("Hi there!")
+	}
+	*/
 object MethodNotations {
 
 	def main(args: Array[String]): Unit = {
@@ -88,25 +109,4 @@ object MethodNotations {
 
 }
 
-/*
-	Takeaways
 
-	class Person(name: String) {
-		def likes(movie: String): Boolean = {....}
-		def unary_!(): String = {....}
-		def isAlive(): Boolean = {.....}
-		def apply(greeting: String): String = {.....}
-
-		mary.likes("Inception")
-		mary likes "Inception"
-
-		mary.unary_!
-		!mary //prefix notatiton
-
-		mary.isAlive
-		mary isAlive //postfix notation
-
-		mary.apply("Hi there!")
-		mary("Hi there!")
-	}
-*/
