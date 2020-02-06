@@ -1,5 +1,34 @@
 package scala_and_functional_programming.lectures.part2oop
+/**
+TAKEAWAYS
 
+- Use the same code on many (potentially unrelated)
+types: trait List[T] {
+ 	def add(elem: T)
+}
+
+- Generic methods
+object List {
+	def single[A](element: A): List[A] = ???
+}
+
+- Multiple type parameters
+trait Map[Key, Value] {
+...
+}
+
+- Variance: if B extends A, should List[B] extend List[A]?
+trait List[+A] yes(covariant)
+trait List[A] no(invariant) - default
+trait List[-A] hell no!(contravariant)
+
+- Bounded types
+class Car
+class Supercar extends Car
+class Garage[T <: Car](car: T)
+
+- An annoying variance problem that we resolve with bounded types
+	*/
 object Generics extends App {
 
 	class MyList[A] {
@@ -53,33 +82,4 @@ object Generics extends App {
 	// expand MyList to be generic
 }
 
-/*
-TAKEAWAYS
 
-- Use the same code on many (potentially unrelated)
-types: trait List[T] {
- 	def add(elem: T)
-}
-
-- Generic methods
-object List {
-	def single[A](element: A): List[A] = ???
-}
-
-- Multiple type parameters
-trait Map[Key, Value] {
-...
-}
-
-- Variance: if B extends A, should List[B] extend List[A]?
-trait List[+A] yes(covariant)
-trait List[A] no(invariant) - default
-trait List[-A] hell no!(contravariant)
-
-- Bounded types
-class Car
-class Supercar extends Car
-class Garage[T <: Car](car: T)
-
-- An annoying variance problem that we resolve with bounded types
-*/
