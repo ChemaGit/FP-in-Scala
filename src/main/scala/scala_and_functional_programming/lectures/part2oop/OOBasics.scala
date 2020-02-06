@@ -1,5 +1,14 @@
 package scala_and_functional_programming.lectures.part2oop
-
+/**
+	Takeavays
+		- Defining classes => class Person(name: String, age: Int)
+		- Instantiating => val bob => new Person("Bob", 25)
+		- Parameters vs fields  => class Person(val name: String, age: Int)
+		- Defining methods => def greet(): String = {....}
+		- Calling methods val bobSaysHi = bob.greet
+			- syntax allowed for parameter-less methods
+		- The keyword this
+*/
 object OOBasics {
 	def main(args: Array[String]): Unit = {
 		val person = new Person("Chema", 50)
@@ -91,13 +100,4 @@ class Counter(val value: Int = 0) {
 	def print = println(current)
 }
 
-/*
-	Takeavays
-		- Defining classes => class Person(name: String, age: Int)
-		- Instantiating => val bob => new Person("Bob", 25)
-		- Parameters vs fields  => class Person(val name: String, age: Int)
-		- Defining methods => def greet(): String = {....}
-		- Calling methods val bobSaysHi = bob.greet
-			- syntax allowed for parameter-less methods
-		- The keyword this
-*/
+
