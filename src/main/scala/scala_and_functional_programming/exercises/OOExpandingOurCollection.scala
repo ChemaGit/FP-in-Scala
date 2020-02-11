@@ -1,7 +1,6 @@
 package scala_and_functional_programming.exercises
 /**
 TAKEAWAYS
-
 - Use the same code on many (potentially unrelated)
 types: trait List[T] {
  	def add(elem: T)
@@ -30,7 +29,7 @@ class Garage[T <: Car](car: T)
 - An annoying variance problem that we resolve with bounded types
 */
 
-/*
+/**
 TAKEAWAYS
 Scala offers class-based inheritance
 	- access modifiers: private, protected, default(none = public)
