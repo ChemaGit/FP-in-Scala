@@ -152,7 +152,7 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
 
   // HOFs
   override def foreach(f: A => Unit): Unit = {
-      f(h)
+    f(h)
     t.foreach(f)
   }
 
