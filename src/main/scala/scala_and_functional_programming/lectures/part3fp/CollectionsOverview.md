@@ -20,13 +20,13 @@ object Predef {
 ````
 
 ````text
-# Immutable Collections
+Immutable Collections
     - Immutable collections are found in scala.collections.immutable package
 
-# Mutable Collections
+Mutable Collections
     - Mutable collections are found in scala.collections.mutable package
 
-# Traversable
+Traversable
     - Base traint for all collections. Offers a great variety of methods:
         - maps: map, flatMap, collect
         - conversions: toArray, toList, toSeq
@@ -36,3 +36,22 @@ object Predef {
         - retrieval: head, find, tail
         - string ops: mkString
 ````
+
+# Sequences
+````scala
+trait Seq[+A] {
+  def head: A
+  def tail: Seq[A]
+}
+````
+````text
+A (very) general interface for data structures that
+    - have a well defined order
+    - can be indexed
+
+Supports various operations:
+    - apply, iterator, length, reverse, for indexing and iterating
+    - concatenation, appending, prepending
+    - a lot of others: grouping, sorting, zipping, searching, slicing
+````
+

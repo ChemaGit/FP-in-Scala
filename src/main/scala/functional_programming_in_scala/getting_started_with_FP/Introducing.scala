@@ -32,14 +32,32 @@ object Introducing {
     else fibonacci(n - 1) + fibonacci(n - 2)
   }
 
+  // 0 and 1 are the first two numbers in the sequence,
+  // so we start the accumulators with those.
+  // At every iteration, we add the two numbers to get the next one.
+  def fib(n: Int): Int = {
+    @annotation.tailrec
+    def loop(n: Int, prev: Int, cur: Int): Int =
+      if (n == 0) prev
+      else loop(n - 1, cur, prev + cur)
+    loop(n, 0, 1)
+  }
+
+  // Solution with a List as accumulator
   def fibonacciTailRec(n: Int): Int = {
-    def loop(x: Int, acc: Int): Int = {
-      if(x == 2) acc + 1
-      else if(x == 1) acc + 1
-      else if(x <= 0) acc
-      else loop(x - 3, acc + (x - 1) + (x - 2))
+    @annotation.tailrec
+    def loop(x: Int,acc: List[Int]): Int = {
+      if(x == 1) acc.sum
+      else {
+        loop(x - 1, List(acc.sum, acc.head))
+      }
     }
-    loop(n, 0)
+    n match {
+      case 0 => 0
+      case 1 => 1
+      case 2 => 1
+      case _ => loop(n - 2,List(1,1))
+    }
   }
 
 
@@ -47,9 +65,8 @@ object Introducing {
   def main(args: Array[String]): Unit = {
     println(formatAbs(-42))
     println(factorial(5))
-    println(fibonacci(3))
-    println(fibonacci(4))
-    println(fibonacciTailRec(3))
+    println(fibonacci(10))
+    println(fibonacciTailRec(10))
   }
 
 }
