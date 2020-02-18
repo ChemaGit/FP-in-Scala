@@ -77,6 +77,8 @@ abstract class MyListGenericB[+A] {
   // HOFs
   def foreach(f: A => Unit): Unit
   def sort(compare: (A, A) => Int): MyListGenericB[A]
+  def zipWith[B, C](list: MyListGenericB[B], zip:(A, B) => C): MyListGenericB[C]
+  def fold[B](start: B)(operator: (B, A) => B): B
 }
 
 object EmptyGB extends MyListGenericB[Nothing] {
@@ -96,6 +98,12 @@ object EmptyGB extends MyListGenericB[Nothing] {
   def foreach(f: Nothing => Unit) = ()
 
   override def sort(compare: (Nothing, Nothing) => Int): MyListGenericB[Nothing] = EmptyGB
+
+  override def zipWith[B, C](list: MyListGenericB[B], zip: (Nothing, B) => C): MyListGenericB[C] =
+    if(!list.isEmpty) throw new RuntimeException("List do not have the same length")
+    else EmptyGB
+
+  override def fold[B](start: B)(operator: (B, Nothing) => B): B = start
 }
 
 class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
@@ -164,6 +172,21 @@ class ConsGB[+A](h: A, t: MyListGenericB[A]) extends MyListGenericB[A] {
     val sortedTail = t.sort(compare)
     insert(h, sortedTail)
   }
+
+  override def zipWith[B, C](list: MyListGenericB[B], zip: (A, B) => C): MyListGenericB[C] = {
+    if(list.isEmpty) throw new RuntimeException("List do not have the same length")
+    else new ConsGB(zip(h, list.head), t.zipWith(list.tail, zip))
+  }
+
+  /*
+  [1,2,3].fold(0)(+) =
+  = [2,3].fold(1)(+) =
+  =[3].fold(3)(+)
+  = [].fold(6)(+)
+   */
+  override def fold[B](start: B)(operator: (B, A) => B): B = {
+    t.fold(operator(start, h))(operator)
+  }
 }
 
 /*
@@ -223,6 +246,18 @@ object OOExpandingOurCollection extends App {
 
   println(listOfIntegers.sort((x, y) => y - x))
   listOfIntegers.sort( (x, y) => y - x).foreach(println)
+  println(anotherListOfIntegers.zipWith[String, String](listOfStrings, _ + "-" + _))
 
+  println(anotherListOfIntegers.fold(0)( (a: Int, b: Int) => a + b))
+  println(listOfIntegers.fold(50)( (a: Int, b: Int) => a - b))
+  println(listOfStrings.fold("Well, ")( (a: String, b: String) => a + b))
+
+  // for comprehensions
+  val combinations = for {
+    n <- listOfIntegers
+    string <- listOfStrings
+  } yield s"$n-$string"
+
+  println(combinations)
 }
 
