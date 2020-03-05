@@ -114,9 +114,59 @@ object Introducing {
     * @param
     */
     def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
-      //TODO: terminar
-      true
+      @annotation.tailrec
+      def loop(arr: Array[A], ord: (A, A) => Boolean): Boolean = {
+        val num = arr.length
+        num match {
+          case 1 => true
+          case _  => {
+            if(ord(arr.head, arr.tail.head) ) loop(arr.tail, ord)
+            else false
+            }
+        }
+      }
+      loop(as, ordered)
     }
+
+  /**
+    * HOF that takes a function of two arguments and partially applies it.
+    * @param a
+    * @param f
+    * @tparam A
+    * @tparam B
+    * @tparam C
+    * @return
+    */
+  def partial1[A,B,C](a: A, f: (A,B) => C): B => C =
+    (b: B) => f(a,b)
+
+  /**
+    * Currying, which converts a function f of two arguments into a function
+    * of one argument that partially applies f. Here again there's only one
+    * implementation that compiles
+    */
+    def curry[A,B,C](f: (A, B) => C): A => (B => C) =
+      (a: A) => (b: B) => f(a,b)
+
+  /**
+    * Implement uncurrry, which reverses the transformation of curry. Note that
+    * since => associates to the right, A => (B => C) can be written as A => B => C
+    */
+    def uncurry[A, B, C](f: A => B => C): (A, B) => C =
+      (a, b) => f(a)(b)
+
+  /**
+    * Implement the higher-order function that composes two functions
+    */
+    def compose[A,B,C](f: B => C, g: A => B): A => C =
+      (a) => f(g(a))
+
+  val f = (x: Double) => math.Pi / 2 - x
+  val cos = f.compose(math.sin)
+  val cos_b = f.andThen(math.sin)
+
+  println(cos(f(2.5)))
+  println(cos_b(f(2.5)))
 
   def main(args: Array[String]): Unit = {
     println(factorial(5))
@@ -133,6 +183,8 @@ object Introducing {
     println()
 
     println(findFirst(Array(1,2,3,4,5,6,7,8), (x: Int) => x == 7 ))
+
+    println(isSorted(Array(9,1,2,3,4,5), (x: Int, y: Int) => x < y))
   }
 
 }
