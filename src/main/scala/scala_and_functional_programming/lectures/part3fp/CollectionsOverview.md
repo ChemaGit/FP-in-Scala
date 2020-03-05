@@ -103,5 +103,30 @@ The default implementation for immutable sequences
     - good performance for large sizes
 ````
 
+# Tuples and Maps
+- Tuples
+````scala
+val tuple = (42, "RockTheJVM")
+tuple._1  // 42 retrieve elements using_n
+tuple.copy(_1 = 0)  //  (0,RockTheJVM)  create new tuples
+tuple.toString  // "(42, RockTheJVM)"   // pretty print
+tuple.swap  //  (RockTheJVM, 42)  // swap elements
+````
+
+- Maps
+````scala
+val phonebook = Map("Jim" -> 555, "Mary" -> 789)
+phonebook.contains("Jim")
+val anotherbook = phonebook + ("Daniel", 123)
+````
+````text
+- Functionals:
+    - filterKeys, mapValues
+    - map, filter, flatMap(on pairings!)
+
+- To / from other collections
+    - .toList, .toMap
+    - groupBy
+````
 
 
