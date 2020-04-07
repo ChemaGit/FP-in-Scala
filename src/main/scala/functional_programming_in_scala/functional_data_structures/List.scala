@@ -50,6 +50,37 @@ object List {
   }
 
   /**
+    * Again, placing f int its own argument group
+    * after as and z lets type inference detemine
+    * the input types to f
+    * @param as
+    * @param z
+    * @param f
+    * @tparam A
+    * @tparam B
+    * @return
+    */
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+
+  def sum2(ns: List[Int]) =
+    foldRight(ns, 0)((x, y) => x + y)
+
+  def product2(ns: List[Double]) =
+    foldRight(ns, 1.0)(_ * _)
+
+  /**
+    * Our implementation of foldRight is not tail-recursive and will result in a StackOverflowError
+    * for large lists (we say it’s not stack-safe). Convince yourself that this is the
+    * case, and then write another general list-recursion function,
+    * foldLeft, that is tail-recursive
+    */
+  def foldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B = ???
+  // todo: pag 41
+  /**
     * Implement the function tail for removing the first
     * element of a List. Note that the function takes
     * constant time
@@ -102,7 +133,57 @@ object List {
     }
   }
 
-  // TODO: def append => pag 36
+  /**
+    * It’s a little unfortunate that we need to state that the type of x is Int.
+    * The first argument
+    * to dropWhile is a List[Int], so the function in the second argument must
+    * accept an Int. Scala can infer this fact if we group dropWhile into two argument lists:
+    *
+    * @param a1
+    * @param f
+    * @tparam A
+    * @return
+    */
+  def dropWhile2[A](a1: List[A])(f: A => Boolean): List[A] = {
+    a1 match {
+      case Nil => Nil
+      case Cons(h, tail) => {
+        if(f(h)) dropWhile(tail, f)
+        else a1
+      }
+    }
+  }
+
+  /**
+    * This function adds the elements of one list
+    * to the end of another
+    * In this case, the immutable linked list
+    * is much more efficient than an array!
+    */
+  def append[A](a1: List[A], a2: List[A]): List[A] = {
+    a1 match {
+      case Nil => a2
+      case Cons(h, t) => Cons(h, append(t, a2))
+    }
+  }
+
+  /**
+    * returns a List consisting of all
+    * but the last element of a List.
+    * So, given List(1,2,3,4), init will
+    * return List(1,2,3)
+    *
+    * @param l
+    * @tparam A
+    * @return
+    */
+  def init[A](l: List[A]): List[A] = {
+    l match {
+      case Nil => Nil
+      case Cons(h, Nil) => Nil
+      case Cons(h, t) => Cons(h, init(t))
+    }
+  }
 
   /**
     * Using the same idea, implement the function setHead
@@ -148,7 +229,6 @@ object Main extends App {
   val ex2: List[Int] = Cons(1, Nil)
   val ex3: List[String] = Cons("a", Cons("b", Nil))
 
-  // todo: Pattern Matching
   /**
     * What will be the result of the following expression?
     */
@@ -166,4 +246,10 @@ object Main extends App {
   println(List.setHead(1, List(2,3,4,5)))
   println(List.drop(List(1,2,3,4,5), 2))
   println(List.dropWhile(List(2,4,6,7,8,10), (n: Int) => n % 2 == 0))
+  println(List.init(List(1,2,3,4)))
+
+  val xs: List[Int] = List(1,2,3,4,5)
+  println(List.dropWhile2(xs)(x => x % 2 == 0))
+
+  println(List.foldRight(List(1,2,3),Nil: List[Int])(Cons(_,_)))
 }
