@@ -7,6 +7,7 @@ object Loops extends App {
 
   for(item <- items) total += item
 
+  assert(total == 1111)
   println(total)
 
   total = 0
@@ -22,7 +23,10 @@ object Loops extends App {
      */
   val multi = Array(Array(1, 2, 3), Array(4, 5, 6))
 
-  for (arr <- multi; i <- arr) println(i)
+  for {
+    arr <- multi
+       i <- arr
+  } println(i)
 
   /**
     * Loops can have guards using an if syntax:
