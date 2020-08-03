@@ -52,6 +52,9 @@ object ListTestG extends App {
 
   println(listOfIntegers.toString)
   println(listOfStrings.toString)
+
+  // lazy val lst: MyListGeneric[String] = new ConsG("a", lst)
+  println(listOfIntegers)
 }
 
 /*
