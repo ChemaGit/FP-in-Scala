@@ -21,7 +21,7 @@ object CommonInterfaces extends App {
 
   /**
     * Code that needs something which provides efficient indexed lookup doesn't care if it's an Array or
-    * Vector , but cannot work with a List. In that case, your code can take an IndexedSeq [T]
+    * Vector, but cannot work with a List. In that case, your code can take an IndexedSeq [T]
     */
   def getIndexTwoAndFour[T](items: IndexedSeq[T]) = (items(2), items(4))
 
