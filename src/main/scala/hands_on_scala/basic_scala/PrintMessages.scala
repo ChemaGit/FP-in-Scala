@@ -30,3 +30,12 @@ object PrintMessages extends App{
   ))
 
 }
+/* Expected
+#0 Hello
+    #1 World
+#2 I am Cow
+    #3 Hear me moo
+    #4 Here I stand
+    #5 I am Cow
+        #6 Here me moo, moo
+ */
