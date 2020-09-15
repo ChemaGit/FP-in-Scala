@@ -21,6 +21,19 @@ object PatternMatching extends App {
   getDayMonthYear("9-8")
   // not a date
 
+  def splitDate(s: String) = s match {
+    case s"$day-$month-$year" => s"day: $day, mon: $month, yr: $year"
+    case _ => "not a date"
+  }
+
+  println(splitDate("9-8-1965"))
+
+  println(splitDate("9-8"))
+
+  assert(splitDate("9-8-1965") == "day: 9, mon: 8, yr: 1965")
+
+  assert(splitDate("9-8") == "not a date")
+
   /**
     * Matching on Ints
     */
@@ -40,6 +53,10 @@ object PatternMatching extends App {
   dayOfWeek(-1)
   // String = "Unknown"
 
+  assert(dayOfWeek(5) == "Fri")
+
+  assert(dayOfWeek(-1) == "Unknown")
+
   /**
     * Matching on Strings
     */
@@ -58,6 +75,43 @@ object PatternMatching extends App {
 
   indexOfDay("???")
   // Int = -1
+
+  assert(indexOfDay("Fri") == 5)
+
+  assert(indexOfDay("???") == -1)
+
+  /**
+    * Loops and Vals
+    *
+    * Pattern matching in for -loops is useful
+    * when you need to iterate over collections of tuples
+    *
+    * Pattern matching in val statements is useful when you are sure the value will match the given pattern, and
+    * all you want to do is extract the parts you want. If the value doesn't match, this fails with an exception
+    */
+  val fizzBuzz1 = for (i <- Range.inclusive(1, 100)) yield {
+    val s =  (i % 3, i % 5) match {
+      case (0, 0) => "FizzBuzz"
+      case (0, _) => "Fizz"
+      case (_, 0) => "Buzz"
+      case _ => i
+    }
+    s
+  }
+
+  assert(fizzBuzz1.take(5) == Seq(1, 2, "Fizz", 4, "Buzz"))
+
+  val fizzBuzz2 = for (i <- Range.inclusive(1, 100)) yield {
+    val s = (i % 3 == 0, i % 5 == 0) match {
+      case (true, true) => "FizzBuzz"
+      case (true, false) => "Fizz"
+      case (false, true) => "Buzz"
+      case (false, false) => i
+    }
+    s
+  }
+
+  assert(fizzBuzz2.take(5) == Seq(1, 2, "Fizz", 4, "Buzz"))
 
   /**
     * Matching on Case Classes
@@ -79,11 +133,12 @@ object PatternMatching extends App {
   direction(Point(10, 0))
   // String = "horizontal"
 
-  /**
-    * Nested Matches
-    * Patterns can also be nested
-    * Patterns can be nested arbitrarily deeply.
-    */
+  assert(direction(Point(0, 0)) == "origin")
+
+  assert(direction(Point(1, 1)) == "diagonal")
+
+  assert(direction(Point(10, 0)) == "horizontal")
+
   case class Person(name: String, title: String)
 
   def greet(p: Person) = p match {
@@ -97,6 +152,9 @@ object PatternMatching extends App {
   greet(Person("Who?", "Dr"))
   // Hello Dr Who?
 
+  assert(greet(Person("Haoyi Li", "Mr")) == "Hello Mr Li")
+  assert(greet(Person("Who?", "Dr")) == "Hello Dr Who?")
+
   def greet2(husband: Person, wife: Person) = (husband, wife) match {
     case (Person(s"$first1 $last1", _), Person(s"$first2 $last2", _)) if last1 == last2 =>
       println(s"Hello Mr and Ms $last1")
@@ -109,33 +167,40 @@ object PatternMatching extends App {
   greet2(Person("James Bond", "Mr"), Person("Jane", "Ms"))
   // Hello James Bond and Jane
 
-    /**
-      * Loops and Vals
-      *
-      * Pattern matching in for -loops is useful
-      * when you need to iterate over collections of tuples
-      *
-      * Pattern matching in val statements is useful when you are sure the value will match the given pattern, and
-      * all you want to do is extract the parts you want. If the value doesn't match, this fails with an exception
-      */
+  assert(greet2(Person("James Bond", "Mr"), Person("Jane Bond", "Ms")) == "Hello Mr and Ms Bond")
+  assert(greet2(Person("James Bond", "Mr"), Person("Jane", "Ms")) == "Hello James Bond and Jane")
+
+  /**
+    * Matching on tuples
+    */
+
     val a = Array[(Int, String)]((1, "one"), (2, "two"), (3, "three"))
     for ((i, s) <- a) println(s + i)
     // one1
     // two2
     // three3
 
+  assert(a.toSeq == Seq("one1", "two2", "three3"))
+
     val p = Point(123, 456)
 
     val Point(x, y) = p
     // x: Int = 123
     // y: Int = 456
+  assert(x == 123)
+  assert(y == 456)
 
     val s"$first $second" = "Hello World"
     // first: String = "Hello"
     // second: String = "World"
 
+  assert(first == "Hello")
+  assert(second == "World")
+
     val flipped = s"$second $first"
     // flipped: String = "World Hello"
+
+  assert(flipped == "World Hello")
 
     val s"$first1 $second1" = "Hello"
     // scala.MatchError: Hello
@@ -167,6 +232,11 @@ object PatternMatching extends App {
     }
 
   /**
+    * Nested Matches
+    * Patterns can also be nested
+    * Patterns can be nested arbitrarily deeply.
+    */
+  /**
     * Pattern Matching on Sealed Traits and Case Classes
     *
     * Pattern matching lets you elegantly work with structured data comprising case classes and sealed traits.
@@ -177,6 +247,7 @@ object PatternMatching extends App {
     * If an Expr is a BinOp , the string is the stringified left expression, followed by the operation, followed
     * by the stringified right expression
     */
+
   sealed trait Expr
   case class BinOp(left: Expr, op: String, right: Expr) extends Expr
   case class Literal(value: Int) extends Expr
@@ -220,6 +291,8 @@ object PatternMatching extends App {
   stringify(largeExpr)
   // String = "((x + 1) * (y - 1))"
 
+  assert(stringify(smallExpr) == "(x + 1)")
+
   def evaluate(expr: Expr, values: Map[String, Int]): Int = expr match {
     case BinOp(left, "+", right) => evaluate(left, values) + evaluate(right, values)
     case BinOp(left, "-", right) => evaluate(left, values) - evaluate(right, values)
@@ -232,4 +305,7 @@ object PatternMatching extends App {
   // Int = 11
   evaluate(largeExpr, Map("x" -> 10, "y" -> 20))
   // Int = 209
+
+  assert(evaluate(largeExpr, Map("x" -> 10, "y" -> 20)) == 209)
+  assert(evaluate(smallExpr, Map("x" -> 10)) == 11)
 }
