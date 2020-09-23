@@ -29,4 +29,44 @@ object ImplicitParameters extends App{
   val imp1 = bar(foo) // passing in `foo` explicitly
   // imp1: Int = 11
   println(imp1)
+
+  /**
+    * Passing ExecutionContext to Futures
+    *
+    * Code using Future needs an ExecutionContext value in order to work.
+    * Without implicit parameters, we have the following options:
+    * Passing executionContext explicitly is verbose and can make your code harder to read: the logic we
+    * care about is drowned in a sea of boilerplate executionContext passing
+    * Making executionContext global would be concise, but would lose the flexibility of passing
+    * different values in different parts of your program
+    * Putting executionContext into a thread-local variable would maintain flexibility and conciseness,
+    * but it is error-prone and easy to forget to set the thread-local before running code that needs it
+    * All of these options have tradeoffs, forcing us to either sacrifice conciseness, flexibility, or safety. Scala's
+    * implicit parameters provide a fourth option: passing executionContext implicitly, which gives us the
+    * conciseness, flexibility, and safety that the above options are unable to give us.
+    */
+
+  /**
+    * Dependency Injection via Implicits
+    *
+    * To resolve these issues, we can make all these functions take the executionContext as an implicit
+    * parameter.
+    */
+
+  import scala.concurrent._
+  trait Employee
+  trait Role
+  case class EmployeeWithRole(e: Employee, r: Role)
+  def getEmployee(id: Int)(implicit ec: ExecutionContext): Future[Employee] = ???
+  def getRole(employee: Employee)(implicit ec: ExecutionContext): Future[Role] = ???
+
+  implicit def executionContext: ExecutionContext = ???
+
+  def bigEmployee: Future[EmployeeWithRole] = {
+    getEmployee(100).flatMap(e =>
+      getRole(e).map(r =>
+        EmployeeWithRole(e, r)
+      )
+    )
+  }
 }
