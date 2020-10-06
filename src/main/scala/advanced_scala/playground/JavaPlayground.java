@@ -1,5 +1,8 @@
-package scala_advanced_and_functional_programming.playground;
+package advanced_scala.playground;
 
+/**
+ * Created by Daniel.
+ */
 public class JavaPlayground {
     public static void main(String[] args) {
         System.out.println("Hello, Java");
