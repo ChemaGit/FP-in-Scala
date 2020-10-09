@@ -12,8 +12,10 @@ object DarkSugars extends App {
 
   val description = singleArgMethod {
     // write some complex code
-    42
+    scala.util.Random.nextInt(1000)
   }
+
+  println(description)
 
   val aTryInstance = Try {  // java's try {...}
     throw new RuntimeException
@@ -32,7 +34,11 @@ object DarkSugars extends App {
     override def act(x: Int): Int = x + 1
   }
 
+  println(s"anInstance: ${anInstance.act(20)}")
+
   val aFunkyInstance: Action = (x: Int) => x + 1  // magic
+
+  println(s"aFunkyInstance: ${aFunkyInstance.act(10)}")
 
   // example: Runnables
   val aThread = new Thread(new Runnable {
@@ -97,5 +103,6 @@ object DarkSugars extends App {
 
   val aMutableContainer = new Mutable
   aMutableContainer.member = 42 // rewrittern as aMutableContainer.member_=(42)
+  println(s"aMutableContainer.member ${aMutableContainer.member}")
 
 }
