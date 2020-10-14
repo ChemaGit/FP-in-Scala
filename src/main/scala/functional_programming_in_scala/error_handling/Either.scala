@@ -3,6 +3,13 @@ package functional_programming_in_scala.error_handling
 //hide std library `Option` and `Either`, since we are writing our own
 import scala.{Option => _, Either => _, _}
 
+/*
+Let’s look at its definition:
+
+sealed trait Either[+E, +A]
+case class Left[+E](value: E) extends Either[E, Nothing]
+case class Right[+A](value: A) extends Either[Nothing, A]
+ */
 sealed trait Either[+E,+A] {
   def map[B](f: A => B): Either[E, B] =
     this match {
@@ -33,10 +40,25 @@ object Either {
     else
       Right(xs.sum / xs.length)
 
+  /**
+    * Sometimes we might want to include more information about the error, for example a
+    * stack trace showing the location of the error in the source code. In such cases we can
+    * simply return the exception in the Left side of an Either :
+    * @param x
+    * @param y
+    * @return
+    */
   def safeDiv(x: Int, y: Int): Either[Exception, Int] =
     try Right(x / y)
     catch { case e: Exception => Left(e) }
 
+  /**
+    * we can write a function, Try , which factors out this common
+    * pattern of converting thrown exceptions to values:
+    * @param a
+    * @tparam A
+    * @return
+    */
   def Try[A](a: => A): Either[Exception, A] =
     try Right(a)
     catch { case e: Exception => Left(e) }
@@ -54,6 +76,13 @@ object Either {
     traverse(es)(x => x)
 
   /*
+  In this implementation, map2 is only able to report one error, even if both the name
+  and the age are invalid. What would you need to change in order to report both errors?
+  Would you change map2 or the signature of mkPerson ? Or could you create a new data
+  type that captures this requirement better than Either does, with some additional
+  structure? How would orElse , traverse , and sequence behave differently for that
+  data type?
+
   There are a number of variations on `Option` and `Either`. If we want to accumulate multiple errors, a simple
   approach is a new data type that lets us keep a list of errors in the data constructor that represents failures:
 
@@ -69,4 +98,30 @@ object Either {
   It's also possible to use `Either[List[E],_]` directly to accumulate errors, using different implementations of
   helper functions like `map2` and `sequence`.
   */
+
+  def main(args: Array[String]): Unit = {
+    println(mean(IndexedSeq(1,2,3,4)))
+    println(mean(IndexedSeq()))
+
+    /**
+      * As a final example, here’s an application of map2 , where the function mkPerson vali-
+      * dates both the given name and the given age before constructing a valid Person .
+      */
+    case class Person(name: Name, age: Age)
+    sealed class Name(val value: String)
+    sealed class Age(val value: Int)
+
+    def mkName(name: String): Either[String, Name] =
+      if (name == "" || name == null) Left("Name is empty.")
+      else Right(new Name(name))
+    def mkAge(age: Int): Either[String, Age] =
+      if (age < 0) Left("Age is out of range.")
+      else Right(new Age(age))
+    def mkPerson(name: String, age: Int): Either[String, Person] =
+      mkName(name).map2(mkAge(age))(Person(_, _))
+
+    println(mkPerson("Chema", 50))
+    println(mkPerson("", 50))
+    println(mkPerson("Chema", -1))
+  }
 }
