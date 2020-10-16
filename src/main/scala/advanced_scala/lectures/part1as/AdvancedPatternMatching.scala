@@ -75,7 +75,10 @@ object AdvancedPatternMatching extends App {
   // decomposing sequences
   val vararg = numbers match {
     case List(1, _*) => "starting with 1"
+    case _ => "something else"
   }
+
+  println(vararg)
 
   abstract class MyList[+A] {
     def head: A = ???
